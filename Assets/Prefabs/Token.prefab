@@ -2608,6 +2608,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointAction: {fileID: 1462294805089095064, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   pressAction: {fileID: -1157173313097728232, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  doublePressAction: {fileID: -2411591676187577709, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!65 &2842934502928389209
 BoxCollider:
   m_ObjectHideFlags: 0
