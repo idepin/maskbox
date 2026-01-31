@@ -15,6 +15,7 @@ public class Token : MonoBehaviour
     public bool IsFlipped => isFlipped;
     public Vector2Int GridPosition => gridPosition;
     public bool IsSwapping => isSwapping;
+    public Vector3 initialPosition;
 
     void Start()
     {
