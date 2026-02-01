@@ -40,8 +40,21 @@ public class TokenReferenceManager : MonoBehaviour
         foreach (var tokenData in tokenCombination.tokensInCombination)
         {
             Token token = tokenManager.GetTokenAtPosition(tokenData.gridPosition);
-            if (token == null || token.TokenId != tokenData.tokenId)
+            if (token == null)
             {
+                Debug.LogWarning($"Validation failed: No token at {tokenData.gridPosition}");
+                isValid = false;
+                break;
+            }
+            if (token.TokenId != tokenData.tokenId)
+            {
+                Debug.LogWarning($"Validation failed: tokenId mismatch at {tokenData.gridPosition}. World {token.TokenId} vs UI {tokenData.tokenId}");
+                isValid = false;
+                break;
+            }
+            if (token.IsFlipped != tokenData.isFlipped)
+            {
+                Debug.LogWarning($"Validation failed: flip mismatch at {tokenData.gridPosition}. World {token.IsFlipped} vs UI {tokenData.isFlipped}");
                 isValid = false;
                 break;
             }

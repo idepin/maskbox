@@ -230,6 +230,9 @@ public class TokenManager : MonoBehaviour
 
             onComplete?.Invoke();
             Debug.Log($"Swapped Token {tokenA.TokenId} with Token {tokenB.TokenId}");
+
+            // Notify listeners (e.g., TokenReferenceManager) for validation
+            onTokenChanged?.Invoke();
         });
     }
 }
