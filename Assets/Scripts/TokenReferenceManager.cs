@@ -9,6 +9,7 @@ public class TokenReferenceManager : MonoBehaviour
 
     [SerializeField] private TokenCombination tokenCombination;
     [SerializeField] private TokenReference tokenReferencePrefab;
+    public int currentPoint = 0;
 
 
 
@@ -23,11 +24,45 @@ public class TokenReferenceManager : MonoBehaviour
         }
         tokenCombination = tokenManager.GetDefaultTokenCombination();
         SetupTokenReferences();
-        //RandomizeTokenCombination();
+        tokenManager.onTokenChanged += ValidateToken;
+        RandomizeTokenCombination();
+    }
+
+    void OnDestroy()
+    {
+        tokenManager.onTokenChanged -= ValidateToken;
+    }
+
+    private void ValidateToken()
+    {
+        // Validate current token combination against the stored one
+        bool isValid = true;
+        foreach (var tokenData in tokenCombination.tokensInCombination)
+        {
+            Token token = tokenManager.GetTokenAtPosition(tokenData.gridPosition);
+            if (token == null || token.TokenId != tokenData.tokenId)
+            {
+                isValid = false;
+                break;
+            }
+        }
+
+        if (isValid)
+        {
+            Debug.Log("Token combination is valid!");
+            currentPoint += 1;
+        }
+        else
+        {
+            Debug.Log("Token combination is invalid.");
+        }
     }
 
 
+
+
     //RANDOMIZATION COMBINATION
+    [ContextMenu("Randomize Token Combination")]
     private void RandomizeTokenCombination()
     {
         //Randomize grid positions and flip states
@@ -40,6 +75,9 @@ public class TokenReferenceManager : MonoBehaviour
             );
             tokenData.isFlipped = rand.Next(0, 2) == 0;
         }
+
+        //Update TokenReferences
+
     }
 
     private void SetupTokenReferences()

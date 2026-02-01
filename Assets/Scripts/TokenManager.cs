@@ -19,11 +19,13 @@ public class TokenManager : MonoBehaviour
     public int GridRow => gridRow;
     public int GridColumn => gridColumn;
     public List<TokenMaterialData> TokenMaterialDatas => tokenMaterialDatas;
+    public Action onTokenChanged;
 
     private void Awake()
     {
         SetupAllToken();
     }
+
 
     public TokenCombination GetDefaultTokenCombination()
     {
@@ -82,6 +84,15 @@ public class TokenManager : MonoBehaviour
                 selectedToken = kvp.Value;
             }
         }
+    }
+
+    public Token GetTokenAtPosition(Vector2Int gridPosition)
+    {
+        if (tokenOccupiedPositions.ContainsKey(gridPosition))
+        {
+            return tokenOccupiedPositions[gridPosition];
+        }
+        return null;
     }
 
     public void SwapTokens(Token tokenA, Token tokenB, Action onComplete = null)

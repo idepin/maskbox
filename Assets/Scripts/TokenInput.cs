@@ -27,6 +27,7 @@ public class TokenInput : MonoBehaviour
             if (token.TokenManager.selectedToken != null && token.TokenManager.selectedToken != token)
             {
                 token.TokenManager.SwapTokens(token.TokenManager.selectedToken, token);
+                token.TokenManager.onTokenChanged?.Invoke();
             }
             else if (token.TokenManager.selectedToken != null && token.TokenManager.selectedToken == token)
             {
@@ -51,6 +52,7 @@ public class TokenInput : MonoBehaviour
     private void HandleDoubleClick()
     {
         token.Flip();
+        token.TokenManager.onTokenChanged?.Invoke();
         token.TokenManager.SetSelectedToken(null);
     }
 
