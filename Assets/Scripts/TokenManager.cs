@@ -13,9 +13,25 @@ public class TokenManager : MonoBehaviour
 
     private Dictionary<Vector2Int, Token> tokenOccupiedPositions = new Dictionary<Vector2Int, Token>();
 
-    private void Start()
+    public Token selectedToken;
+
+    private void Awake()
     {
         SetupAllToken();
+    }
+
+    public TokenCombination GetDefaultTokenCombination()
+    {
+        TokenCombination combination = new TokenCombination();
+        foreach (var kvp in tokenOccupiedPositions)
+        {
+            combination.tokensInCombination.Add(new TokenData
+            {
+                tokenId = kvp.Value.TokenId,
+                gridPosition = kvp.Value.GridPosition
+            });
+        }
+        return combination;
     }
 
     private void SetupAllToken()
@@ -39,6 +55,15 @@ public class TokenManager : MonoBehaviour
 
     public void SetSelectedToken(Token token)
     {
+        if (token == null)
+        {
+            foreach (var kvp in tokenOccupiedPositions)
+            {
+                kvp.Value.IsSelected = false;
+            }
+            selectedToken = null;
+            return;
+        }
         foreach (var kvp in tokenOccupiedPositions)
         {
             if (kvp.Value != token && kvp.Value.IsSelected)
@@ -48,6 +73,7 @@ public class TokenManager : MonoBehaviour
             else if (kvp.Value == token && !kvp.Value.IsSelected)
             {
                 kvp.Value.IsSelected = true;
+                selectedToken = kvp.Value;
             }
         }
     }
@@ -81,6 +107,13 @@ public class TokenManager : MonoBehaviour
 
             tokenA.EndSwap();
             tokenB.EndSwap();
+
+            foreach (var kvp in tokenOccupiedPositions)
+            {
+                kvp.Value.IsSelected = false;
+            }
+
+            selectedToken = null;
 
             onComplete?.Invoke();
             Debug.Log($"Swapped Token {tokenA.TokenId} with Token {tokenB.TokenId}");

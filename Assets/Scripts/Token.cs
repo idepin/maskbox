@@ -14,7 +14,6 @@ public class Token : MonoBehaviour
     private bool isSelected;
 
     public int TokenId => tokenId;
-    public bool IsFlipped => isFlipped;
     public Vector2Int GridPosition => gridPosition;
     public bool IsSwapping => isSwapping;
     public TokenManager TokenManager => tokenManager;

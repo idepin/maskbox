@@ -24,7 +24,19 @@ public class TokenInput : MonoBehaviour
         }
         else
         {
-            token.TokenManager.SetSelectedToken(token);
+            if (token.TokenManager.selectedToken != null && token.TokenManager.selectedToken != token)
+            {
+                token.TokenManager.SwapTokens(token.TokenManager.selectedToken, token);
+            }
+            else if (token.TokenManager.selectedToken != null && token.TokenManager.selectedToken == token)
+            {
+                token.TokenManager.SetSelectedToken(null);
+            }
+            else
+            {
+                token.TokenManager.SetSelectedToken(token);
+            }
+
         }
     }
 
@@ -39,6 +51,7 @@ public class TokenInput : MonoBehaviour
     private void HandleDoubleClick()
     {
         token.Flip();
+        token.TokenManager.SetSelectedToken(null);
     }
 
 }
