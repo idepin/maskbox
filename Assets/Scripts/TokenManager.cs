@@ -8,12 +8,17 @@ public class TokenManager : MonoBehaviour
     [SerializeField] private float gridPaddingRow = 1.0f;
     [SerializeField] private float gridPaddingColumn = 1.0f;
     [SerializeField] private Token tokenPrefab;
+    [SerializeField] private List<TokenMaterialData> tokenMaterialDatas;
+
     [SerializeField] private int gridRow = 3;
     [SerializeField] private int gridColumn = 3;
 
     private Dictionary<Vector2Int, Token> tokenOccupiedPositions = new Dictionary<Vector2Int, Token>();
 
     public Token selectedToken;
+    public int GridRow => gridRow;
+    public int GridColumn => gridColumn;
+    public List<TokenMaterialData> TokenMaterialDatas => tokenMaterialDatas;
 
     private void Awake()
     {
@@ -48,6 +53,7 @@ public class TokenManager : MonoBehaviour
                     y * gridPaddingRow
                 );
                 newToken.Setup(gridPos.x + gridPos.y * gridColumn, gridPos);
+                newToken.MeshRenderer.material = tokenMaterialDatas.Find(data => data.tokenId == newToken.TokenId)?.tokenMaterial;
                 tokenOccupiedPositions.Add(gridPos, newToken);
             }
         }
@@ -119,4 +125,12 @@ public class TokenManager : MonoBehaviour
             Debug.Log($"Swapped Token {tokenA.TokenId} with Token {tokenB.TokenId}");
         });
     }
+}
+
+[Serializable]
+public class TokenMaterialData
+{
+    public int tokenId;
+    public Material tokenMaterial;
+    public Sprite tokenSprite;
 }

@@ -17,6 +17,7 @@ public class Token : MonoBehaviour
     public Vector2Int GridPosition => gridPosition;
     public bool IsSwapping => isSwapping;
     public TokenManager TokenManager => tokenManager;
+    public MeshRenderer MeshRenderer => meshRenderer;
     public bool IsSelected
     {
         get => isSelected;

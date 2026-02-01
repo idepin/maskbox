@@ -724,25 +724,6 @@ MonoBehaviour:
   tokenCombination:
     tokensInCombination: []
   tokenReferencePrefab: {fileID: 482045787234926954, guid: c82ae1ada9e7c469e81ccb67f76e7d2f, type: 3}
-  tokenImageDatas:
-  - tokenId: 0
-    tokenSprite: {fileID: 21300000, guid: c0864a307421a42ada8c1f074cda9bc4, type: 3}
-  - tokenId: 1
-    tokenSprite: {fileID: 21300000, guid: c0864a307421a42ada8c1f074cda9bc4, type: 3}
-  - tokenId: 2
-    tokenSprite: {fileID: 21300000, guid: c0864a307421a42ada8c1f074cda9bc4, type: 3}
-  - tokenId: 3
-    tokenSprite: {fileID: 21300000, guid: c0864a307421a42ada8c1f074cda9bc4, type: 3}
-  - tokenId: 4
-    tokenSprite: {fileID: 21300000, guid: c0864a307421a42ada8c1f074cda9bc4, type: 3}
-  - tokenId: 5
-    tokenSprite: {fileID: 21300000, guid: c0864a307421a42ada8c1f074cda9bc4, type: 3}
-  - tokenId: 6
-    tokenSprite: {fileID: 21300000, guid: c0864a307421a42ada8c1f074cda9bc4, type: 3}
-  - tokenId: 7
-    tokenSprite: {fileID: 21300000, guid: c0864a307421a42ada8c1f074cda9bc4, type: 3}
-  - tokenId: 8
-    tokenSprite: {fileID: 21300000, guid: c0864a307421a42ada8c1f074cda9bc4, type: 3}
 --- !u!1 &1932941855
 GameObject:
   m_ObjectHideFlags: 0
@@ -790,6 +771,34 @@ MonoBehaviour:
   gridPaddingRow: 3
   gridPaddingColumn: 3
   tokenPrefab: {fileID: 3253951136373915495, guid: 88cadf04532ba40ee8834f8ee753552e, type: 3}
+  tokenMaterialDatas:
+  - tokenId: 0
+    tokenMaterial: {fileID: 2100000, guid: f39c5234b8784484d891eb16d9522539, type: 2}
+    tokenSprite: {fileID: 21300000, guid: c0864a307421a42ada8c1f074cda9bc4, type: 3}
+  - tokenId: 1
+    tokenMaterial: {fileID: 2100000, guid: 111170d9d974a499996679644ae33007, type: 2}
+    tokenSprite: {fileID: 21300000, guid: d1a89c40268af46a3be4cd9c32b4eff0, type: 3}
+  - tokenId: 2
+    tokenMaterial: {fileID: 2100000, guid: 111170d9d974a499996679644ae33007, type: 2}
+    tokenSprite: {fileID: 21300000, guid: d1a89c40268af46a3be4cd9c32b4eff0, type: 3}
+  - tokenId: 3
+    tokenMaterial: {fileID: 2100000, guid: 111170d9d974a499996679644ae33007, type: 2}
+    tokenSprite: {fileID: 21300000, guid: d1a89c40268af46a3be4cd9c32b4eff0, type: 3}
+  - tokenId: 4
+    tokenMaterial: {fileID: 2100000, guid: 111170d9d974a499996679644ae33007, type: 2}
+    tokenSprite: {fileID: 21300000, guid: d1a89c40268af46a3be4cd9c32b4eff0, type: 3}
+  - tokenId: 5
+    tokenMaterial: {fileID: 2100000, guid: f39c5234b8784484d891eb16d9522539, type: 2}
+    tokenSprite: {fileID: 21300000, guid: c0864a307421a42ada8c1f074cda9bc4, type: 3}
+  - tokenId: 6
+    tokenMaterial: {fileID: 2100000, guid: 111170d9d974a499996679644ae33007, type: 2}
+    tokenSprite: {fileID: 21300000, guid: d1a89c40268af46a3be4cd9c32b4eff0, type: 3}
+  - tokenId: 7
+    tokenMaterial: {fileID: 2100000, guid: f39c5234b8784484d891eb16d9522539, type: 2}
+    tokenSprite: {fileID: 21300000, guid: c0864a307421a42ada8c1f074cda9bc4, type: 3}
+  - tokenId: 8
+    tokenMaterial: {fileID: 2100000, guid: 111170d9d974a499996679644ae33007, type: 2}
+    tokenSprite: {fileID: 21300000, guid: d1a89c40268af46a3be4cd9c32b4eff0, type: 3}
   gridRow: 3
   gridColumn: 3
   selectedToken: {fileID: 0}
