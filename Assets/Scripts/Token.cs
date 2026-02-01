@@ -18,6 +18,7 @@ public class Token : MonoBehaviour
     public bool IsSwapping => isSwapping;
     public TokenManager TokenManager => tokenManager;
     public MeshRenderer MeshRenderer => meshRenderer;
+    public bool IsFlipped => isFlipped;
     public bool IsSelected
     {
         get => isSelected;

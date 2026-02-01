@@ -35,7 +35,8 @@ public class TokenManager : MonoBehaviour
             combination.tokensInCombination.Add(new TokenData
             {
                 tokenId = kvp.Value.TokenId,
-                gridPosition = kvp.Value.GridPosition
+                gridPosition = kvp.Value.GridPosition,
+                isFlipped = kvp.Value.IsFlipped
             });
         }
         return combination;

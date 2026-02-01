@@ -137,4 +137,65 @@ public class TokenReferenceManager : MonoBehaviour
         Debug.LogWarning($"Token sprite not found for Token ID: {tokenId}");
         return null;
     }
+
+    public bool ValidateTokenConsistency()
+    {
+        var worldCombination = tokenManager.GetDefaultTokenCombination();
+        var refList = tokenCombination.tokensInCombination;
+        var worldList = worldCombination.tokensInCombination;
+
+        var worldById = new Dictionary<int, TokenData>();
+        foreach (var td in worldList)
+        {
+            worldById[td.tokenId] = td;
+        }
+
+        bool isValid = true;
+
+        foreach (var refTd in refList)
+        {
+            if (!worldById.TryGetValue(refTd.tokenId, out var worldTd))
+            {
+                Debug.LogError($"Validation: tokenId {refTd.tokenId} missing in world state.");
+                isValid = false;
+                continue;
+            }
+
+            if (refTd.gridPosition != worldTd.gridPosition)
+            {
+                Debug.LogError($"Validation: tokenId {refTd.tokenId} grid mismatch. UI {refTd.gridPosition} vs World {worldTd.gridPosition}.");
+                isValid = false;
+            }
+
+            if (refTd.isFlipped != worldTd.isFlipped)
+            {
+                Debug.LogError($"Validation: tokenId {refTd.tokenId} flip mismatch. UI {refTd.isFlipped} vs World {worldTd.isFlipped}.");
+                isValid = false;
+            }
+        }
+
+        var refById = new HashSet<int>();
+        foreach (var td in refList) refById.Add(td.tokenId);
+        foreach (var worldTd in worldList)
+        {
+            if (!refById.Contains(worldTd.tokenId))
+            {
+                Debug.LogError($"Validation: tokenId {worldTd.tokenId} present in world but missing in UI.");
+                isValid = false;
+            }
+        }
+
+        if (isValid)
+        {
+            Debug.Log("Validation: token combinations match (id, position, flip).");
+        }
+
+        return isValid;
+    }
+
+    [ContextMenu("Validate Token Consistency")]
+    private void ValidateFromContextMenu()
+    {
+        ValidateTokenConsistency();
+    }
 }
