@@ -25,7 +25,7 @@ public class TokenReferenceManager : MonoBehaviour
         tokenCombination = tokenManager.GetDefaultTokenCombination();
         SetupTokenReferences();
         tokenManager.onTokenChanged += ValidateToken;
-        RandomizeTokenCombination();
+        //RandomizeTokenCombination();
     }
 
     void OnDestroy()
@@ -84,9 +84,14 @@ public class TokenReferenceManager : MonoBehaviour
 
     private void SetupTokenReferences()
     {
-        // Match TokenManager.SetupAllToken order: tokenId ascending (x + y * gridColumn)
+        // Match world grid visual order: bottom-to-top (y asc), then left-to-right (x asc)
         List<TokenData> sortedTokens = new List<TokenData>(tokenCombination.tokensInCombination);
-        sortedTokens.Sort((a, b) => a.tokenId.CompareTo(b.tokenId));
+        sortedTokens.Sort((a, b) =>
+        {
+            int yCmp = a.gridPosition.y.CompareTo(b.gridPosition.y);
+            if (yCmp != 0) return yCmp;
+            return a.gridPosition.x.CompareTo(b.gridPosition.x);
+        });
 
         foreach (var tokenData in sortedTokens)
         {
@@ -144,43 +149,45 @@ public class TokenReferenceManager : MonoBehaviour
         var refList = tokenCombination.tokensInCombination;
         var worldList = worldCombination.tokensInCombination;
 
-        var worldById = new Dictionary<int, TokenData>();
+        var worldByPos = new Dictionary<Vector2Int, TokenData>();
         foreach (var td in worldList)
         {
-            worldById[td.tokenId] = td;
+            worldByPos[td.gridPosition] = td;
         }
 
         bool isValid = true;
 
+        // Compare UI refs against world by position
         foreach (var refTd in refList)
         {
-            if (!worldById.TryGetValue(refTd.tokenId, out var worldTd))
+            if (!worldByPos.TryGetValue(refTd.gridPosition, out var worldTd))
             {
-                Debug.LogError($"Validation: tokenId {refTd.tokenId} missing in world state.");
+                Debug.LogError($"Validation: position {refTd.gridPosition} missing in world state.");
                 isValid = false;
                 continue;
             }
 
-            if (refTd.gridPosition != worldTd.gridPosition)
+            if (refTd.tokenId != worldTd.tokenId)
             {
-                Debug.LogError($"Validation: tokenId {refTd.tokenId} grid mismatch. UI {refTd.gridPosition} vs World {worldTd.gridPosition}.");
+                Debug.LogError($"Validation: position {refTd.gridPosition} tokenId mismatch. UI {refTd.tokenId} vs World {worldTd.tokenId}.");
                 isValid = false;
             }
 
             if (refTd.isFlipped != worldTd.isFlipped)
             {
-                Debug.LogError($"Validation: tokenId {refTd.tokenId} flip mismatch. UI {refTd.isFlipped} vs World {worldTd.isFlipped}.");
+                Debug.LogError($"Validation: position {refTd.gridPosition} flip mismatch. UI {refTd.isFlipped} vs World {worldTd.isFlipped}.");
                 isValid = false;
             }
         }
 
-        var refById = new HashSet<int>();
-        foreach (var td in refList) refById.Add(td.tokenId);
+        // Check world positions present but not in UI
+        var refByPos = new HashSet<Vector2Int>();
+        foreach (var td in refList) refByPos.Add(td.gridPosition);
         foreach (var worldTd in worldList)
         {
-            if (!refById.Contains(worldTd.tokenId))
+            if (!refByPos.Contains(worldTd.gridPosition))
             {
-                Debug.LogError($"Validation: tokenId {worldTd.tokenId} present in world but missing in UI.");
+                Debug.LogError($"Validation: position {worldTd.gridPosition} present in world but missing in UI.");
                 isValid = false;
             }
         }
