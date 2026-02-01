@@ -76,6 +76,8 @@ public class TokenReferenceManager : MonoBehaviour
             tokenData.isFlipped = rand.Next(0, 2) == 0;
         }
 
+        RefreshTokenReferences();
+
         //Update TokenReferences
 
     }
@@ -92,6 +94,35 @@ public class TokenReferenceManager : MonoBehaviour
             Sprite tokenSprite = GetTokenSpriteById(tokenData.tokenId);
             tokenReference.Setup(tokenSprite, tokenData.isFlipped);
         }
+    }
+
+    private void ClearTokenReferences()
+    {
+        for (int i = transform.childCount - 1; i >= 0; i--)
+        {
+            var child = transform.GetChild(i).gameObject;
+            if (Application.isPlaying)
+            {
+                Destroy(child);
+            }
+            else
+            {
+                DestroyImmediate(child);
+            }
+        }
+    }
+
+    public void RefreshTokenReferences()
+    {
+        ClearTokenReferences();
+        SetupTokenReferences();
+    }
+
+    [ContextMenu("Randomize & Refresh")]
+    public void RandomizeAndRefresh()
+    {
+        RandomizeTokenCombination();
+        // RefreshTokenReferences() is already called inside Randomize
     }
 
     public Sprite GetTokenSpriteById(int tokenId)
