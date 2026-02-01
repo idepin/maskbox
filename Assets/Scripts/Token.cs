@@ -57,6 +57,7 @@ public class Token : MonoBehaviour
     {
         isFlipped = !isFlipped;
         Debug.Log($"Token {tokenId} flipped. New state: {isFlipped}");
+        transform.DOLocalMoveY(1f, 0.25f).SetLoops(2, LoopType.Yoyo);
         transform.DOLocalRotate(new Vector3(0, 0, isFlipped ? 180 : 0), 0.5f);
     }
 
