@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +12,7 @@ public class TokenReferenceManager : MonoBehaviour
     [SerializeField] private TokenCombination tokenCombination;
     [SerializeField] private TokenReference tokenReferencePrefab;
     [SerializeField] private TextMeshProUGUI pointText;
+    [SerializeField] private CanvasGroup winCanvasGroup;
     public int currentPoint = 0;
 
 
@@ -67,11 +69,24 @@ public class TokenReferenceManager : MonoBehaviour
             Debug.Log("Token combination is valid!");
             currentPoint += 1;
             pointText.SetText(currentPoint.ToString());
+            Win();
         }
         else
         {
             Debug.Log("Token combination is invalid.");
         }
+    }
+
+    private void Win()
+    {
+        Sequence seq = DOTween.Sequence();
+        seq.Append(winCanvasGroup.DOFade(1f, 0.4f));
+        seq.AppendInterval(1.0f);
+        seq.Append(winCanvasGroup.DOFade(0f, 0.4f));
+        seq.AppendCallback(() =>
+        {
+            RandomizeTokenCombination();
+        });
     }
 
 
