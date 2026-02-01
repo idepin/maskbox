@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,7 @@ public class TokenReferenceManager : MonoBehaviour
 
     [SerializeField] private TokenCombination tokenCombination;
     [SerializeField] private TokenReference tokenReferencePrefab;
+    [SerializeField] private TextMeshProUGUI pointText;
     public int currentPoint = 0;
 
 
@@ -23,9 +25,9 @@ public class TokenReferenceManager : MonoBehaviour
             grid.startAxis = GridLayoutGroup.Axis.Horizontal;
         }
         tokenCombination = tokenManager.GetDefaultTokenCombination();
-        SetupTokenReferences();
+        //SetupTokenReferences();
         tokenManager.onTokenChanged += ValidateToken;
-        //RandomizeTokenCombination();
+        RandomizeTokenCombination();
     }
 
     void OnDestroy()
@@ -64,6 +66,7 @@ public class TokenReferenceManager : MonoBehaviour
         {
             Debug.Log("Token combination is valid!");
             currentPoint += 1;
+            pointText.SetText(currentPoint.ToString());
         }
         else
         {
@@ -78,14 +81,32 @@ public class TokenReferenceManager : MonoBehaviour
     [ContextMenu("Randomize Token Combination")]
     private void RandomizeTokenCombination()
     {
-        //Randomize grid positions and flip states
+        // Randomize to a unique permutation of all grid positions
         System.Random rand = new System.Random();
-        foreach (var tokenData in tokenCombination.tokensInCombination)
+
+        List<Vector2Int> allPositions = new List<Vector2Int>();
+        for (int x = 0; x < tokenManager.GridColumn; x++)
         {
-            tokenData.gridPosition = new Vector2Int(
-                rand.Next(0, tokenManager.GridColumn),
-                rand.Next(0, tokenManager.GridRow)
-            );
+            for (int y = 0; y < tokenManager.GridRow; y++)
+            {
+                allPositions.Add(new Vector2Int(x, y));
+            }
+        }
+
+        // Fisher-Yates shuffle
+        for (int i = allPositions.Count - 1; i > 0; i--)
+        {
+            int j = rand.Next(i + 1);
+            var tmp = allPositions[i];
+            allPositions[i] = allPositions[j];
+            allPositions[j] = tmp;
+        }
+
+        int count = Math.Min(tokenCombination.tokensInCombination.Count, allPositions.Count);
+        for (int i = 0; i < count; i++)
+        {
+            var tokenData = tokenCombination.tokensInCombination[i];
+            tokenData.gridPosition = allPositions[i];
             tokenData.isFlipped = rand.Next(0, 2) == 0;
         }
 

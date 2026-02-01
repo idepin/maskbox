@@ -58,13 +58,6 @@ public class Token : MonoBehaviour
         isFlipped = !isFlipped;
         Debug.Log($"Token {tokenId} flipped. New state: {isFlipped}");
         transform.DOLocalRotate(new Vector3(0, 0, isFlipped ? 180 : 0), 0.5f);
-
-        // Notify manager for validation updates
-        if (tokenManager != null)
-        {
-            tokenManager.onTokenChanged?.Invoke();
-        }
-
     }
 
 }
