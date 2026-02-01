@@ -25,7 +25,7 @@ public class TokenReferenceManager : MonoBehaviour
         tokenCombination = tokenManager.GetDefaultTokenCombination();
         SetupTokenReferences();
         tokenManager.onTokenChanged += ValidateToken;
-        //RandomizeTokenCombination();
+        RandomizeTokenCombination();
     }
 
     void OnDestroy()
