@@ -32,8 +32,22 @@ public class TokenManager : MonoBehaviour
                     y * gridPaddingRow
                 );
                 newToken.Setup(gridPos.x + gridPos.y * gridColumn, gridPos);
-                newToken.initialPosition = newToken.transform.position;
                 tokenOccupiedPositions.Add(gridPos, newToken);
+            }
+        }
+    }
+
+    public void SetSelectedToken(Token token)
+    {
+        foreach (var kvp in tokenOccupiedPositions)
+        {
+            if (kvp.Value != token && kvp.Value.IsSelected)
+            {
+                kvp.Value.IsSelected = false;
+            }
+            else if (kvp.Value == token && !kvp.Value.IsSelected)
+            {
+                kvp.Value.IsSelected = true;
             }
         }
     }
@@ -64,10 +78,6 @@ public class TokenManager : MonoBehaviour
 
             tokenA.Setup(tokenA.TokenId, posB);
             tokenB.Setup(tokenB.TokenId, posA);
-
-            // Update initial positions to match new world-space locations
-            tokenA.initialPosition = tokenA.transform.position;
-            tokenB.initialPosition = tokenB.transform.position;
 
             tokenA.EndSwap();
             tokenB.EndSwap();

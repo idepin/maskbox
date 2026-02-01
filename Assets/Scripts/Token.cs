@@ -5,17 +5,28 @@ public class Token : MonoBehaviour
 {
     [SerializeField] private int tokenId;
     [SerializeField] private bool isFlipped = false;
+    [SerializeField] private MeshRenderer meshRenderer;
 
     private Vector2Int gridPosition;
     private TokenManager tokenManager;
     private bool isSwapping;
     private Collider[] colliders;
+    private bool isSelected;
 
     public int TokenId => tokenId;
     public bool IsFlipped => isFlipped;
     public Vector2Int GridPosition => gridPosition;
     public bool IsSwapping => isSwapping;
-    public Vector3 initialPosition;
+    public TokenManager TokenManager => tokenManager;
+    public bool IsSelected
+    {
+        get => isSelected;
+        set
+        {
+            isSelected = value;
+            meshRenderer.gameObject.layer = isSelected ? LayerMask.NameToLayer("Outline") : LayerMask.NameToLayer("Default");
+        }
+    }
 
     void Start()
     {
@@ -33,26 +44,13 @@ public class Token : MonoBehaviour
     public void BeginSwap()
     {
         isSwapping = true;
-        SetCollidersEnabled(false);
     }
 
     public void EndSwap()
     {
-        SetCollidersEnabled(true);
         isSwapping = false;
     }
 
-    private void SetCollidersEnabled(bool enabled)
-    {
-        if (colliders == null || colliders.Length == 0)
-        {
-            colliders = GetComponentsInChildren<Collider>();
-        }
-        foreach (var c in colliders)
-        {
-            c.enabled = enabled;
-        }
-    }
 
     public void Flip()
     {
@@ -61,15 +59,4 @@ public class Token : MonoBehaviour
         transform.DOLocalRotate(new Vector3(0, 0, isFlipped ? 180 : 0), 0.5f);
     }
 
-    void OnTriggerEnter(Collider other)
-    {
-        if (isSwapping) return;
-        Token otherToken = other.GetComponentInParent<Token>();
-        if (otherToken == null) return;
-        if (otherToken == this) return;
-        if (otherToken.IsSwapping) return;
-        if (tokenManager == null) return;
-        Debug.Log($"Token {tokenId} collided with Token {otherToken.TokenId}");
-        tokenManager.SwapTokens(this, otherToken, null);
-    }
 }
