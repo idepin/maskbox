@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class TokenReferenceManager : MonoBehaviour
@@ -13,10 +14,11 @@ public class TokenReferenceManager : MonoBehaviour
     [SerializeField] private TokenReference tokenReferencePrefab;
     [SerializeField] private TextMeshProUGUI pointText;
     [SerializeField] private CanvasGroup winCanvasGroup;
+
     public int currentPoint = 0;
 
-
-
+    // Events.
+    public event Action<int> OnPointChanged;
 
     void Start()
     {
@@ -70,6 +72,9 @@ public class TokenReferenceManager : MonoBehaviour
             currentPoint += 1;
             pointText.SetText(currentPoint.ToString());
             Win();
+
+            // Call event.
+            OnPointChanged?.Invoke(currentPoint);
         }
         else
         {

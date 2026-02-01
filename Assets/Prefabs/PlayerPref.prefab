@@ -70,3 +70,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c48eaec400d09d141b229d25fe1952e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  _playerScoreDisplay: {fileID: 6702432553973843468, guid: a6464810d7b1a5644a73a6d383ebae10, type: 3}
+  _point:
+    m_InternalValue: 0
+  _leaderboardView: {fileID: 0}
